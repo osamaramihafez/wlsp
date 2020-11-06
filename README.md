@@ -1,4 +1,4 @@
-This script fetches a batch of windows lockscreen pcitures every time you run it.
+This script fetches a batch of windows lockscreen pictures every time you run it.
 
 The program should be run using python3.
 
