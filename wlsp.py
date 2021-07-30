@@ -5,6 +5,7 @@ import imghdr
 import getpass
 
 DESTINATION = os.getcwd()
+print(DESTINATION)
 try:
     os.mkdir(os.path.join(DESTINATION, "pics_fetched"))
 except FileExistsError:
@@ -12,7 +13,7 @@ except FileExistsError:
 
 DESTINATION = os.path.join(DESTINATION, "pics_fetched")
 
-PICS_OLD_L = r"C:/Users/Osama/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
+PICS_OLD_L = r"/mnt/c/Users/osama.hafez/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
 TYPE = ".jpg"
 
 def find_path_to_pictures():
@@ -20,8 +21,9 @@ def find_path_to_pictures():
     Return the path where the desktop background pictures are stored using the
     person's username.
     """
-    user = getpass.getuser()
-    path = "C:\\Users\\{0}\\AppData\\Local\\Packages\\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\\LocalState\\Assets".format(user)
+    # user = getpass.getuser()
+    # path = "/mnt/c/Users/{0}/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets".format(user)
+    path = "/mnt/c/Users/osama.hafez/AppData/Local/Packages/Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy/LocalState/Assets"
     return path
 
 def rename_files(deliver, batch, dest):
@@ -33,14 +35,14 @@ def rename_files(deliver, batch, dest):
         if "." not in file and file != "Moved for Python":
             if file_num == 0:
                 try:
-                    os.rename(deliver + "\\" + file,  deliver + "\\" +"Picture (Batch {0}){1}".format(batch, TYPE))
+                    os.rename(deliver + "/" + file,  deliver + "/" +"Picture (Batch {0}){1}".format(batch, TYPE))
                     file_num += 1
                 except PermissionError:
                     print("Permission error on " + file)
                     pass
             else:
                 try:
-                    os.rename(deliver + "\\" + file,  deliver + "\\" + "Picture {0} (Batch {1}){2}".format(file_num, batch, TYPE))
+                    os.rename(deliver + "/" + file,  deliver + "/" + "Picture {0} (Batch {1}){2}".format(file_num, batch, TYPE))
                     file_num += 1
                 except PermissionError:
                     print("Permission error on " + file)
@@ -78,13 +80,13 @@ def check():
     d = DESTINATION
     for i in os.listdir(d):
         if i in os.listdir(d):
-            n = os.stat(d+"\\"+i).st_size
+            n = os.stat(d+"/"+i).st_size
             for x in os.listdir(d):
                 try:
                     if x != i:
-                        m = os.stat(d+"\\"+x).st_size
+                        m = os.stat(d+"/"+x).st_size
                         if m == n:
-                            os.remove(d+"\\"+x)
+                            os.remove(d+"/"+x)
                 except FileNotFoundError:
                     pass
                 except PermissionError:
@@ -106,16 +108,16 @@ def the_right_pics():
     for image in os.listdir(deliver):
         try:
             if not('.txt' in image or '.py' in image):
-                x = imghdr.what(deliver + "\\" + image)
+                x = imghdr.what(deliver + "/" + image)
                 if x != "jpeg":
-                    os.remove(deliver + "\\" +image)
+                    os.remove(deliver + "/" +image)
                 else:
-                    dimensions = get_image_size(deliver + "\\" +image)
-                    size = os.stat(deliver + "\\" +image).st_size
+                    dimensions = get_image_size(deliver + "/" +image)
+                    size = os.stat(deliver + "/" +image).st_size
                     if size < 100000:
-                        os.remove(deliver + "\\" + image)
+                        os.remove(deliver + "/" + image)
                     elif dimensions == (1080, 1920):
-                        os.remove(deliver + "\\" + image)
+                        os.remove(deliver + "/" + image)
 
         except PermissionError:
             pass
